@@ -1,16 +1,14 @@
 import streamlit as st
 import requests as rq
 import pandas as pd
-# import plotly.express as px
+import geopandas as gpd
+import matplotlib.pyplot as  plt
 import plotly.graph_objs as go
 import time
 
-statewise =0
-total=0
 
 def getData():
-    global total,statewise
-    
+    total,statewise =0,0
     URL = 'https://api.rootnet.in/covid19-in/unofficial/covid19india.org/statewise'
     print("\n----------------------------------------------\n")
     try:
@@ -22,6 +20,7 @@ def getData():
         statewise.columns = ['Location','Confirmed','Recovered','Death','Foriegn']
     except:
         print("Error")
+    return total,statewise
 
 def getHistory():
 
@@ -44,10 +43,25 @@ def getHistory():
         print("Error")
     return history
 
+def getMap(statewise):
+    map_df = gpd.read_file('main/Indian_States.shp')
+    map_df['st_nm']=['Andaman and Nicobar Islands', 'Arunachal Pradesh', 'Assam', 'Bihar',
+           'Chandigarh', 'Chhattisgarh', 'Dadra and Nagar Haveli', 'Daman and Diu',
+           'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir',
+           'Jharkhand', 'Karnataka', 'Kerala', 'Lakshadweep', 'Madhya Pradesh',
+           'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
+           'Delhi', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim',
+           'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand',
+           'West Bengal', 'Odisha', 'Andhra Pradesh']
+    merged = map_df.set_index('st_nm').join(statewise.set_index('Location'))
+    return merged
+
+
 
 his = getHistory()
+total,statewise = getData()
+merged = getMap(statewise)
 
-getData()
 st.markdown(
     "<span style='color:#505050;font-size:58px;font-weight:bold;'>India</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:darkred;font-size:28px;font-weight:bold;'>Covid-19</span><br><span style='color:darkgrey;font-size:80px;font-weight:bold;'>Confirmed : {} </span><br><span style='color:red;font-size:29px;font-weight:bold;'>Death : {} </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style='color:green;font-size:30px;font-weight:bold;'>Recovered : {} </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:orange;font-size:30px;font-weight:bold;'>Active : {} </span><br>".format(
         total.confirmed,
@@ -141,6 +155,12 @@ def RecoverVsActivePlot():
                         marker = dict(size=8)))
     return fig
 
+def mapPlot():
+    fig1,ax=plt.subplots(1,figsize=(25,20))
+    ax.axis('off')
+    merged.plot(column='Confirmed',cmap='Oranges',ax=ax,linewidth=0.8,edgecolor='0.8')
+    return ax.figure
+
 st.markdown("**<BR>Confirmed Cases**",unsafe_allow_html=True)
 st.write(confirmPlot())
 
@@ -149,6 +169,9 @@ st.write(RecoverVsDeathPlot())
 
 st.markdown("**<BR>Recovered vs Active**",unsafe_allow_html=True)
 st.write(RecoverVsActivePlot())
+
+st.markdown("**<BR>Affected States**",unsafe_allow_html=True)
+st.write(mapPlot())
 
 st.markdown("**<BR>Statewise Statistics**",unsafe_allow_html=True)
 st.table(
