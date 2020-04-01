@@ -62,6 +62,10 @@ his = getHistory()
 total,statewise = getData()
 merged = getMap(statewise)
 
+statewise.sort_values(by='Confirmed',ascending=False,inplace=True)
+statewise['Rank'] = list(range(1,38))
+statewise.set_index('Rank',inplace=True)
+
 st.markdown(
     "<span style='color:#505050;font-size:58px;font-weight:bold;'>India</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:darkred;font-size:28px;font-weight:bold;'>Covid-19</span><br><span style='color:darkgrey;font-size:80px;font-weight:bold;'>Confirmed : {} </span><br><span style='color:red;font-size:29px;font-weight:bold;'>Death : {} </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style='color:green;font-size:30px;font-weight:bold;'>Recovered : {} </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color:orange;font-size:30px;font-weight:bold;'>Active : {} </span><br>".format(
         total.confirmed,
