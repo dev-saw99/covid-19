@@ -10,7 +10,7 @@ import time
 def getData():
     total,statewise =0,0
     URL = 'https://api.rootnet.in/covid19-in/unofficial/covid19india.org/statewise'
-    print("\n----------------------------------------------\n")
+    # print("\n----------------------------------------------\n")
     try:
         dataObj = rq.get(url=URL)
         dataObj = dataObj.json()
@@ -25,7 +25,7 @@ def getData():
 def getHistory():
 
     URL = 'https://api.rootnet.in/covid19-in/unofficial/covid19india.org/statewise/history'
-    print("++++++++++++++++++++++++++++++++++++++++++++++++++\n")
+    # print("++++++++++++++++++++++++++++++++++++++++++++++++++\n")
     history = 0
     try:
         historyObj = rq.get(url=URL)
