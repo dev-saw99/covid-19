@@ -37,7 +37,7 @@ Django==2.2.5
 django-appconf==1.0.3
 django-tinymce-lite==0.0.2
 django-tinymce4-lite==1.7.5
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 docutils==0.15.2
 entrypoints==0.3
 enum-compat==0.0.3
