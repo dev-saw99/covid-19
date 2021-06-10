@@ -33,7 +33,7 @@ descartes==1.1.0
 dialite==0.5.2
 discord.py==1.2.4
 distro==1.4.0
-Django==2.2.5
+Django==2.2.24
 django-appconf==1.0.3
 django-tinymce-lite==0.0.2
 django-tinymce4-lite==1.7.5
