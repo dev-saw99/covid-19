@@ -89,7 +89,7 @@ msgpack==0.6.2
 multidict==4.5.2
 munch==2.5.0
 mysql-connector-python==8.0.17
-nbconvert==5.6.0
+nbconvert==6.3.0
 nbformat==4.4.0
 nltk==3.4.5
 notebook==6.0.1
